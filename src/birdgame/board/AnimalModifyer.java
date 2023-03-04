@@ -1,5 +1,20 @@
 package birdgame.board;
 
+import java.util.Timer;
+
 public enum AnimalModifyer {
-    upDown, leftRight, square, none
+
+        uPDown(""), leftRight(""), square(""), none("");
+
+    String superpower;
+    AnimalModifyer(String x){
+        superpower=x;
+
+    };
+
+
+
 }
+
+
+

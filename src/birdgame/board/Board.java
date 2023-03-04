@@ -6,13 +6,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Board extends JFrame implements ActionListener {
+    BirdPanel panel;
 
     public  Board(){
-        this.setSize(400,600);
+        this.setSize(500,500);
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.setResizable(false);
+
+        panel=new BirdPanel();
+        this.add(panel);
+
         JMenuBar mb=new JMenuBar();
         JMenu m1=new JMenu("Game");
         JMenuItem item1= new JMenuItem("Exit");
@@ -24,6 +28,9 @@ public class Board extends JFrame implements ActionListener {
         item1.addActionListener(this);
         item2.addActionListener(this);
 
+        Timer timer=new Timer(1000,this);
+        timer.start();
+        this.setVisible(true);
     }
 
 
@@ -35,6 +42,12 @@ public class Board extends JFrame implements ActionListener {
 
         }
     }
+
+
+
+
+
+
 }
 
 
