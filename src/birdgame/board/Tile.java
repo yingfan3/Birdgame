@@ -4,21 +4,28 @@ public class Tile {
     private BoardAnimals spotAnimal;
     private BoardBlockers boardBlocker;
     private AnimalModifyer animalModifyer;
-    private int locationX,locationY;
-    private int height;
+    private int indexX;
 
-    public void setLocationX(int x) {
-        this.locationX = x;
+    public int getIndexY() {
+        return indexY;
     }
-    public void setLocationY(int y) {
-        this.locationY = y;
+
+    public void setIndexY(int indexY) {
+        this.indexY = indexY;
     }
-    public int getLocationX(){
-        return locationX;
+
+    public int getIndexX() {
+        return indexX;
     }
-    public int getLocationY(){
-        return locationY;
+
+    public void setIndexX(int indexX) {
+        this.indexX = indexX;
     }
+
+    private int indexY;
+
+
+
     public void setSpotAnimal(BoardAnimals spotAnimal) {
         this.spotAnimal = spotAnimal;
     }
@@ -42,18 +49,10 @@ public class Tile {
         this.boardBlocker = boardBlocker;
     }
 
-    public int getHeight() {
-        return height;
-    }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public Tile(int x , int y, int height, BoardAnimals spotAnimal, BoardBlockers boardBlocker, AnimalModifyer animalModifyer){
-        this.locationX=x;
-        this.locationY=y;
-        this.height=height;
+    public Tile(int indexX,int indexY,BoardAnimals spotAnimal, BoardBlockers boardBlocker, AnimalModifyer animalModifyer){
+        this.indexX=indexX;
+        this.indexY=indexY;
         this.spotAnimal=spotAnimal;
         this.boardBlocker= boardBlocker;
         this.animalModifyer=animalModifyer;
