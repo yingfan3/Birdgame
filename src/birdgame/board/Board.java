@@ -1,48 +1,85 @@
 package birdgame.board;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+public class Board {
+    private Tile tile;
+    private static Tile [][] tiles;
+    public  Board(Tile tile){
+        this.tile=tile;
 
-public class Board extends JFrame implements ActionListener {
-    BirdPanel panel;
-
-    public  Board(){
-        this.setSize(500,500);
-        this.setLayout(new BorderLayout());
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-
-        panel=new BirdPanel();
-        this.add(panel);
-
-        JMenuBar mb=new JMenuBar();
-        JMenu m1=new JMenu("Game");
-        JMenuItem item1= new JMenuItem("Exit");
-        JMenuItem item2= new JMenuItem("Restart");
-        mb.add(m1);
-        m1.add(item1);
-        m1.add(item2);
-        this.setJMenuBar(mb);
-        item1.addActionListener(this);
-        item2.addActionListener(this);
-
-        Timer timer=new Timer(1000,this);
-        timer.start();
-        this.setVisible(true);
     }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if ("Exit".equals(e.getActionCommand())){
-            System.exit(0);
-        }else if("Restart".equals(e.getActionCommand())){
+    static boolean exist (Tile tile){
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles.length; j++) {
+                if(tile.equals(tiles[i][j])){
+                    return true;
+                }
+            }
 
         }
+        return false;
     }
 
+    public boolean select(Tile tile){
+        this.tile=tile;
+        if(exist(tile)){
+            return true;
+        }
+        return false;
+    }
+    public void swap(Tile tile, Tile curTile){
+        BoardAnimals animals1=tile.getSpotAnimal();
+        BoardAnimals animals2=curTile.getSpotAnimal();
+        if(select(tile) &&select(curTile)){
+            if((tile.getLocationX()+ tile.getHeight()==curTile.getLocationX() ||tile.getLocationY()+ tile.getHeight()==curTile.getLocationY()||curTile.getLocationX()+curTile.getHeight()==tile.getLocationX()||curTile.getLocationY()+curTile.getHeight()==tile.getLocationY())){
+                if(tile.equals(curTile)){}
+                else{curTile.setBoardBlocker(tile.getBoardBlocker());
+                    curTile.setAnimalModifyer(tile.getAnimalModifyer());
+                    curTile.setSpotAnimal(tile.getSpotAnimal());
+                    tile.setBoardBlocker(curTile.getBoardBlocker());
+                    tile.setAnimalModifyer(curTile.getAnimalModifyer());
+                    tile.setSpotAnimal(curTile.getSpotAnimal());
+                }
+
+            }
+        }
+    }
+    public void clearandfill(){
+        int n=tiles.length;
+        for (int i = 0; i < n-1; i++) {
+            for (int j = 0; j <n-1 ; j++) {
+                if(tiles[i-1][j].getSpotAnimal().equals(tiles[i][j].getSpotAnimal())&tiles[i][j].getSpotAnimal().equals(tiles[i+1][j].getSpotAnimal()) ){
+                    while (i<n-3){
+                        tiles[i-1][j]=tiles[i+2][j];
+                        i++;
+                    }
+                    tiles[n-3][j].setSpotAnimal(BoardAnimals.getAnimal());
+                    tiles[n-3][j].setBoardBlocker(BoardBlockers.NONE);
+                    tiles[n-3][j].setAnimalModifyer(AnimalModifyer.none);
+                    tiles[n-2][j].setSpotAnimal(BoardAnimals.getAnimal());
+                    tiles[n-2][j].setBoardBlocker(BoardBlockers.NONE);
+                    tiles[n-2][j].setAnimalModifyer(AnimalModifyer.none);
+                    tiles[n-1][j].setSpotAnimal(BoardAnimals.getAnimal());
+                    tiles[n-1][j].setBoardBlocker(BoardBlockers.NONE);
+                    tiles[n-1][j].setAnimalModifyer(AnimalModifyer.none);
+                }else if(tiles[i][j-1].getSpotAnimal().equals(tiles[i][j].getSpotAnimal())&tiles[i][j].getSpotAnimal().equals(tiles[i][j+1].getSpotAnimal()) ){
+                    while (i<n-3){
+                        tiles[i][j-1]=tiles[i][j+2];
+                        j++;
+                    }
+                    tiles[i][j-3].setSpotAnimal(BoardAnimals.getAnimal());
+                    tiles[i][j-3].setBoardBlocker(BoardBlockers.NONE);
+                    tiles[i][j-3].setAnimalModifyer(AnimalModifyer.none);
+                    tiles[i][j-2].setSpotAnimal(BoardAnimals.getAnimal());
+                    tiles[i][j-2].setBoardBlocker(BoardBlockers.NONE);
+                    tiles[i][j-2].setAnimalModifyer(AnimalModifyer.none);
+                    tiles[i][j-1].setSpotAnimal(BoardAnimals.getAnimal());
+                    tiles[i][j-1].setBoardBlocker(BoardBlockers.NONE);
+                    tiles[i][j-1].setAnimalModifyer(AnimalModifyer.none);
+                }
+            }
+        }
+
+    }
 
 
 
