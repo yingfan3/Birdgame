@@ -5,6 +5,7 @@ public class Tile {
     private BoardBlockers boardBlocker;
     private AnimalModifyer animalModifyer;
     private int indexX;
+    private int indexY;
 
     public int getIndexY() {
         return indexY;
@@ -21,10 +22,6 @@ public class Tile {
     public void setIndexX(int indexX) {
         this.indexX = indexX;
     }
-
-    private int indexY;
-
-
 
     public void setSpotAnimal(BoardAnimals spotAnimal) {
         this.spotAnimal = spotAnimal;
@@ -50,12 +47,18 @@ public class Tile {
     }
 
 
-    public Tile(int indexX,int indexY,BoardAnimals spotAnimal, BoardBlockers boardBlocker, AnimalModifyer animalModifyer){
+    public Tile(int indexX,int indexY,BoardAnimals spotAnimal,BoardBlockers boardBlocker,AnimalModifyer animalModifyer){
         this.indexX=indexX;
         this.indexY=indexY;
-        this.spotAnimal=spotAnimal;
+        this.spotAnimal= spotAnimal;
         this.boardBlocker= boardBlocker;
-        this.animalModifyer=animalModifyer;
+        this.animalModifyer= animalModifyer;
+
+    }
+    public Tile(int indexX,int indexY){
+        this.indexX=indexX;
+        this.indexY=indexY;
+
 
     }
 

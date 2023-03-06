@@ -3,7 +3,7 @@ package birdgame.board;
 import java.util.Random;
 
 public enum BoardAnimals {
-    FOX,BEAR,BIRD,FROG,HIPPO,OWL;
+    FOX,BEAR,BIRD,FROG,HIPPO,OWL,NONE;
 
 
     public static BoardAnimals getAnimal(){

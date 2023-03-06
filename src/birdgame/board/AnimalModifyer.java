@@ -4,7 +4,7 @@ import java.util.Timer;
 
 public enum AnimalModifyer {
 
-        uPDown(""), leftRight(""), square(""), none("");
+        uPDown(""), leftRight(""), square(""), NONE("");
 
     String superpower;
     AnimalModifyer(String x){
