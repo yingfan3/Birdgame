@@ -1,6 +1,8 @@
 package birdgame.board;
 
-public class Tile {
+import java.util.ArrayList;
+
+public class Tile extends ArrayList<Tile> {
     private BoardAnimals spotAnimal;
     private BoardBlockers boardBlocker;
     private AnimalModifyer animalModifyer;
@@ -59,6 +61,12 @@ public class Tile {
         this.indexX=indexX;
         this.indexY=indexY;
 
+
+    }
+    public Tile(BoardAnimals spotAnimal,BoardBlockers boardBlocker,AnimalModifyer animalModifyer){
+        this.spotAnimal= spotAnimal;
+        this.boardBlocker= boardBlocker;
+        this.animalModifyer= animalModifyer;
 
     }
 

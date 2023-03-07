@@ -19,7 +19,7 @@ public class Board {
                                 tiles[i][j]=new Tile(i,j);
                         }
                 }
-                ArrayList<ArrayList<Tile>> tileList=new ArrayList<ArrayList<Tile>>() ;
+                tileList=new ArrayList<ArrayList<Tile>>() ;
                 for (int i = 0; i < tiles.length; i++) {
                         tileList.add(i,new ArrayList<>(Arrays.asList(tiles[i])));
                 }
@@ -60,18 +60,10 @@ public class Board {
         }
 
 
-        private int howmanyinarowUD(int x, int y){
+        private int howmanyinarowU(int x, int y){
                 int result=1;
                 BoardAnimals animals=tiles[x][y].getSpotAnimal();
 
-                for (int i = x+1; i < tiles.length; i++) {
-                       if(tiles[i][y].getSpotAnimal().equals(animals)){
-                               result++;
-
-                       }else {
-                               break;
-                       }
-                }
                 for (int i = x-1; i > -1; i--) {
                         if(tiles[i][y].getSpotAnimal().equals(animals)){
                                 result++;
@@ -80,24 +72,54 @@ public class Board {
 
                 return result;
 
+        }
+        private int howmanyinarowD(int x, int y){
+                int result=1;
+                BoardAnimals animals=tiles[x][y].getSpotAnimal();
 
+                for (int i = x+1; i < tiles.length; i++) {
+                        if(tiles[i][y].getSpotAnimal().equals(animals)){
+                                result++;
+
+                        }else {
+                                break;
+                        }
+                }
+
+
+                return result;
 
         }
 
-        private int howmanyinarowLR(int x, int y){
-                int result=1;
+        private int howmanyinarowL(int x, int y){
+                int result=0;
+
+                BoardAnimals animals=tiles[x][y].getSpotAnimal();
+
+                for (int j = y-1; j > -1; j--) {
+                        if(tiles[x][j].getSpotAnimal().equals(animals)){
+                                result++;
+                        }else {
+                                break;
+                        }
+                }
+
+                return result;
+
+        }
+        private int howmanyinarowR(int x, int y){
+                int result=0;
+
                 BoardAnimals animals=tiles[x][y].getSpotAnimal();
 
                 for (int j = y+1; j < tiles[x].length; j++) {
                         if(tiles[x][j].getSpotAnimal().equals(animals)){
                                 result++;
+                        }else {
+                                break;
                         }
                 }
-                for (int j = y-1; j > -1; j--) {
-                        if(tiles[x][j].getSpotAnimal().equals(animals)){
-                                result++;
-                        }
-                }
+
 
                 return result;
 
@@ -109,16 +131,19 @@ public class Board {
                         return true;
                 }
 
-                int fLR=howmanyinarowLR(fristSelected.getIndexX(),fristSelected.getIndexY());
-                int fUD=howmanyinarowUD(fristSelected.getIndexX(),fristSelected.getIndexY());
-
-                if(fLR>=3||fUD>=3){
+                int fL=howmanyinarowL(fristSelected.getIndexX(),fristSelected.getIndexY());
+                int fR=howmanyinarowR(fristSelected.getIndexX(),fristSelected.getIndexY());
+                int fU=howmanyinarowU(fristSelected.getIndexX(),fristSelected.getIndexY());
+                int fD=howmanyinarowD(fristSelected.getIndexX(),fristSelected.getIndexY());
+                if(fL+fR+1>=3||fU+fD+1>=3){
                         return true;
                 }
 
-                int sLR =howmanyinarowLR(secondSelected.getIndexX(),secondSelected.getIndexY());
-                int sUD=howmanyinarowUD(secondSelected.getIndexX(),secondSelected.getIndexY());
-                if(sLR>=3||sUD>=3){
+                int sL=howmanyinarowL(secondSelected.getIndexX(),secondSelected.getIndexY());
+                int sR=howmanyinarowR(secondSelected.getIndexX(),secondSelected.getIndexY());
+                int sU=howmanyinarowU(secondSelected.getIndexX(),secondSelected.getIndexY());
+                int sD=howmanyinarowD(secondSelected.getIndexX(),secondSelected.getIndexY());
+                if(sL+sR+1>=3||sU+sD+1>=3){
                         return true;
                 }
                 return false;
@@ -128,14 +153,18 @@ public class Board {
                 if(fristSelected.getAnimalModifyer()!=AnimalModifyer.NONE
                         &&secondSelected.getAnimalModifyer()!=AnimalModifyer.NONE){
                         if(fristSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)){
-                            tileList.remove(tileList.get(fristSelected.getIndexY()));
+                                tileList.set(fristSelected.getIndexY(),new Tile(BoardAnimals.getAnimal(),
+                                        BoardBlockers.NONE, AnimalModifyer.NONE));
                         }else if(fristSelected.getAnimalModifyer().equals(AnimalModifyer.leftRight)){
-                                tileList.remove(tileList.get(fristSelected.getIndexX()));
+                                tileList.set(fristSelected.getIndexX(),new Tile(BoardAnimals.getAnimal(),
+                                        BoardBlockers.NONE, AnimalModifyer.NONE));
 
                         }else if(secondSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)){
-                                tileList.remove(tileList.get(fristSelected.getIndexY()));
+                                tileList.set(secondSelected.getIndexY(),new Tile(BoardAnimals.getAnimal(),
+                                        BoardBlockers.NONE, AnimalModifyer.NONE));
                         }else if(secondSelected.getAnimalModifyer().equals(AnimalModifyer.leftRight)){
-                                tileList.remove(tileList.get(fristSelected.getIndexX()));
+                                tileList.set(secondSelected.getIndexX(),new Tile(BoardAnimals.getAnimal(),
+                                        BoardBlockers.NONE, AnimalModifyer.NONE));
                         }
 
                 }
@@ -143,30 +172,37 @@ public class Board {
 
 
         }
-        private void clear2(){
-                int fLR=    howmanyinarowLR(fristSelected.getIndexX(),fristSelected.getIndexY());
+        private void clearfLR(int x,int y1,int y2,int y3){
+                swap(fristSelected,secondSelected);
+                int fL=howmanyinarowL(fristSelected.getIndexX(),fristSelected.getIndexY());
+                int fR=howmanyinarowR(fristSelected.getIndexX(),fristSelected.getIndexY());
+                x=fristSelected.getIndexX();
+                y1= fristSelected.getIndexY();
+                y2=y1-fL;
+                y3=y1+fR;
+                for (int i = y2; i <y3+1 ; i++) {
+                        tileList.set(x,new Tile(BoardAnimals.getAnimal(),BoardBlockers.NONE,AnimalModifyer.NONE));
+                }
 
-                int fUD=howmanyinarowUD(fristSelected.getIndexX(),fristSelected.getIndexY());
-
-
-                int sLR =howmanyinarowLR(secondSelected.getIndexX(),secondSelected.getIndexY());
-                int sUD=howmanyinarowUD(secondSelected.getIndexX(),secondSelected.getIndexY());
+        }
+        private void clearfsLR(int x,int y1,int y2,int y3){
+                swap(fristSelected,secondSelected);
+                int sL=howmanyinarowL(secondSelected.getIndexX(),secondSelected.getIndexY());
+                int sR=howmanyinarowR(secondSelected.getIndexX(),secondSelected.getIndexY());
+                x=secondSelected.getIndexX();
+                y1= secondSelected.getIndexY();
+                y2=y1-sL;
+                y3=y1+sR;
+                for (int i = y2; i <y3+1 ; i++) {
+                        tileList.set(x,new Tile(BoardAnimals.getAnimal(),BoardBlockers.NONE,AnimalModifyer.NONE));
+                }
 
         }
 
 
+        private void fall (){
 
-//        private void fall (){
-////            uses makeFalllist... adds removes the peice it has done and adds back new Locations
-//        }
-//        private List<Tile> makeFallList(){ //Locations is NOT TILES it is an XY PAIR or a  X1Y1X2Y2 pair...
-////            //makes a list and adds a xy pair if there is a empty spot with a piece above it or the in side fall actions
-////            like
-////                    H
-////            FB             HB
-////            B                F
-////            BX   ->      BB
-////        }
+        }
 //        public void doLogic(){
 ////            use most to all methods above
 //        }
