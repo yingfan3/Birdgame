@@ -10,7 +10,7 @@ public class Board {
         private Tile secondSelected;
 
         private final Tile [][] tiles;
-        ArrayList<ArrayList<Tile>> tileList;
+
         public Board(int xSize, int ysize){
                 tiles=new Tile[xSize][ysize];
 
@@ -19,10 +19,7 @@ public class Board {
                                 tiles[i][j]=new Tile(i,j);
                         }
                 }
-                tileList=new ArrayList<ArrayList<Tile>>() ;
-                for (int i = 0; i < tiles.length; i++) {
-                        tileList.add(i,new ArrayList<>(Arrays.asList(tiles[i])));
-                }
+
         }
         private void select (int x, int y){
                 if(isfirstsecletion()){
@@ -149,57 +146,8 @@ public class Board {
                 return false;
         }
 
-        private void clear1(){
-                if(fristSelected.getAnimalModifyer()!=AnimalModifyer.NONE
-                        &&secondSelected.getAnimalModifyer()!=AnimalModifyer.NONE){
-                        if(fristSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)){
-                                tileList.set(fristSelected.getIndexY(),new Tile(BoardAnimals.getAnimal(),
-                                        BoardBlockers.NONE, AnimalModifyer.NONE));
-                        }else if(fristSelected.getAnimalModifyer().equals(AnimalModifyer.leftRight)){
-                                tileList.set(fristSelected.getIndexX(),new Tile(BoardAnimals.getAnimal(),
-                                        BoardBlockers.NONE, AnimalModifyer.NONE));
-
-                        }else if(secondSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)){
-                                tileList.set(secondSelected.getIndexY(),new Tile(BoardAnimals.getAnimal(),
-                                        BoardBlockers.NONE, AnimalModifyer.NONE));
-                        }else if(secondSelected.getAnimalModifyer().equals(AnimalModifyer.leftRight)){
-                                tileList.set(secondSelected.getIndexX(),new Tile(BoardAnimals.getAnimal(),
-                                        BoardBlockers.NONE, AnimalModifyer.NONE));
-                        }
-
-                }
-
-
-
+        private void clear1() {
         }
-        private void clearfLR(int x,int y1,int y2,int y3){
-                swap(fristSelected,secondSelected);
-                int fL=howmanyinarowL(fristSelected.getIndexX(),fristSelected.getIndexY());
-                int fR=howmanyinarowR(fristSelected.getIndexX(),fristSelected.getIndexY());
-                x=fristSelected.getIndexX();
-                y1= fristSelected.getIndexY();
-                y2=y1-fL;
-                y3=y1+fR;
-                for (int i = y2; i <y3+1 ; i++) {
-                        tileList.set(x,new Tile(BoardAnimals.getAnimal(),BoardBlockers.NONE,AnimalModifyer.NONE));
-                }
-
-        }
-        private void clearfsLR(int x,int y1,int y2,int y3){
-                swap(fristSelected,secondSelected);
-                int sL=howmanyinarowL(secondSelected.getIndexX(),secondSelected.getIndexY());
-                int sR=howmanyinarowR(secondSelected.getIndexX(),secondSelected.getIndexY());
-                x=secondSelected.getIndexX();
-                y1= secondSelected.getIndexY();
-                y2=y1-sL;
-                y3=y1+sR;
-                for (int i = y2; i <y3+1 ; i++) {
-                        tileList.set(x,new Tile(BoardAnimals.getAnimal(),BoardBlockers.NONE,AnimalModifyer.NONE));
-                }
-
-        }
-
-
         private void fall (){
 
         }
