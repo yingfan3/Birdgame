@@ -1,8 +1,8 @@
 package birdgame.board;
 
-import java.util.ArrayList;
 
-public class Tile extends ArrayList<Tile> {
+
+public class Tile  {
     private BoardAnimals spotAnimal;
     private BoardBlockers boardBlocker;
     private AnimalModifyer animalModifyer;
@@ -49,28 +49,20 @@ public class Tile extends ArrayList<Tile> {
     }
 
 
-    public Tile(int indexX,int indexY,BoardAnimals spotAnimal,BoardBlockers boardBlocker,AnimalModifyer animalModifyer){
-        this.indexX=indexX;
-        this.indexY=indexY;
-        this.spotAnimal= spotAnimal;
-        this.boardBlocker= boardBlocker;
-        this.animalModifyer= animalModifyer;
 
-    }
     public Tile(int indexX,int indexY){
         this.indexX=indexX;
         this.indexY=indexY;
-
-
-    }
-    public Tile(BoardAnimals spotAnimal,BoardBlockers boardBlocker,AnimalModifyer animalModifyer){
-        this.spotAnimal= spotAnimal;
-        this.boardBlocker= boardBlocker;
-        this.animalModifyer= animalModifyer;
-
+        this.spotAnimal= BoardAnimals.NONE;
+        this.boardBlocker= BoardBlockers.NONE;
+        this.animalModifyer= AnimalModifyer.NONE;
     }
 
-
+    @Override
+    public String toString() {
+        return " "+spotAnimal.anmial+"-"+boardBlocker.blocker
+                +"-"+animalModifyer.superpower+" ";
+    }
 }
 
 

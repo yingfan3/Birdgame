@@ -3,13 +3,14 @@ package birdgame.board;
 import java.util.Random;
 
 public enum BoardBlockers {
-    ICE1,ICE2,ICE3, BUBBLE,  SAND,EMPTY,NONE;
-    public static BoardAnimals getBlcokers(){
 
-        Random rm=new Random();
-        int n= rm.nextInt(7);
 
-        return BoardAnimals.values()[n];
+
+    ICE1("I1"),ICE2("I2"),ICE3("I3"), BUBBLE("BB"),  SAND("SD"),EMPTY("EM"),NONE("NO");
+    String blocker;
+    private static Random rm =null;
+    BoardBlockers(String x){
+        blocker=x;
 
     }
 
