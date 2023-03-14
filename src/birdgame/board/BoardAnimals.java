@@ -4,6 +4,14 @@ import java.util.Random;
 
 public enum BoardAnimals {
     FOX("F"),BEAR("B"),BIRD("C"),FROG("G"),HIPPO("H"),OWL("O"),NONE("N");
+
+    @Override
+    public String toString() {
+        return
+                "anmial='" + anmial + '\''
+                ;
+    }
+
     String anmial;
     private static Random rm =null;
     BoardAnimals(String x){
@@ -12,7 +20,7 @@ public enum BoardAnimals {
     public static BoardAnimals getAnimal(){
 
         if (rm==null){
-             rm=new Random(178556);
+             rm=new Random(17856);
         }
 
 
