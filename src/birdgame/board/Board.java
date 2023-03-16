@@ -3,10 +3,10 @@ package birdgame.board;
 import java.util.*;
 
 public class Board {
-        public Tile fristSelected;
-        public Tile secondSelected;
-        public final Tile [][] tiles;
-        public String s;
+        private Tile fristSelected;
+        private Tile secondSelected;
+        private final Tile [][] tiles;
+        private String s;
 
         @Override
         public String toString() {
@@ -50,7 +50,11 @@ public class Board {
 
 
 
-        public void swap(Tile fristSelected,Tile secondSelected){
+        public void swap(){
+             swap(fristSelected,secondSelected);
+        }
+
+        private void swap(Tile fristSelected,Tile secondSelected){
                 BoardAnimals animals1=fristSelected.getSpotAnimal();
                 BoardAnimals animals2=secondSelected.getSpotAnimal();
                 BoardBlockers blockers1=fristSelected.getBoardBlocker();
@@ -162,6 +166,11 @@ public class Board {
                 }
                 return false;
         }
+
+        public String getS() {
+                return s;
+        }
+
         public void clear() {
                 int fL=howmanyinarowL(fristSelected.getIndexX(),fristSelected.getIndexY());
                 int fR=howmanyinarowR(fristSelected.getIndexX(),fristSelected.getIndexY());
@@ -311,6 +320,17 @@ public class Board {
                 }
 
         }
+        public int howmanyN (){
+                int n=0;
+                for (int i = 0; i < tiles.length; i++) {
+                        for (int j = 0; j < tiles[i].length; j++) {
+                                if(tiles[i][j].getSpotAnimal().equals(BoardAnimals.NONE)){
+                                   n++;
+                                }
+                        }
+                }
+                return n;
+        }
         public void fall1 (){
                 for (int i = 0; i <tiles.length ; i++) {
                         for (int j = 0; j < tiles[i].length; j++) {
@@ -386,6 +406,18 @@ public class Board {
 //
 
         }
+
+        public boolean turnnotover(){
+
+                return secondSelected==null;
+        }
+
+
+        public void newturnstarts(){
+                secondSelected=null;
+        }
+
+
 
 }
 
