@@ -23,11 +23,13 @@ public class Main  {
 
             board.swap();
             if(board.shouldclear()){
+                board.beforeclear();
+                goal.shouldbecleared(board);
                 board.clear();
-                goal.havecleared(board);
                 board.fall2();
-                System.out.println(board.getS());
+                System.out.println(board.truetiles());
                 System.out.println("Goal : "+goal.getagoal()+"\n"+board);
+
 
             }else {
                 board.swap();

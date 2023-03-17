@@ -6,7 +6,9 @@ public class Board {
         private Tile fristSelected;
         private Tile secondSelected;
         private final Tile [][] tiles;
-        private String s;
+        private List<String> ls;
+
+
 
         @Override
         public String toString() {
@@ -167,8 +169,136 @@ public class Board {
                 return false;
         }
 
-        public String getS() {
-                return s;
+        public void beforremove(int x1,int y1, int x2,int y2){
+                for (int i = x1; i < x2+1; i++) {
+                        for (int j = y1; j < y2+1; j++) {
+                                tiles[i][j].setMark(true);
+
+                        }
+                }
+
+        }
+
+        public int beforeclear() {
+                 int fL=howmanyinarowL(fristSelected.getIndexX(),fristSelected.getIndexY());
+                 int fR=howmanyinarowR(fristSelected.getIndexX(),fristSelected.getIndexY());
+                 int fU=howmanyinarowU(fristSelected.getIndexX(),fristSelected.getIndexY());
+                 int fD=howmanyinarowD(fristSelected.getIndexX(),fristSelected.getIndexY());
+                 int sL=howmanyinarowL(secondSelected.getIndexX(),secondSelected.getIndexY());
+                 int sR=howmanyinarowR(secondSelected.getIndexX(),secondSelected.getIndexY());
+                 int sU=howmanyinarowU(secondSelected.getIndexX(),secondSelected.getIndexY());
+                 int sD=howmanyinarowD(secondSelected.getIndexX(),secondSelected.getIndexY());
+                if(checkmoifier()){
+                        if(fristSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)
+                                &&secondSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)) {
+                                beforremove(0, fristSelected.getIndexY(), tiles.length - 1, fristSelected.getIndexY());
+                                beforremove(0, secondSelected.getIndexY(), tiles.length - 1, secondSelected.getIndexY());
+
+                        } else if(fristSelected.getAnimalModifyer().equals(AnimalModifyer.leftRight)
+                                &&secondSelected.getAnimalModifyer().equals(AnimalModifyer.leftRight)){
+                                beforremove(fristSelected.getIndexX(),0,
+                                        fristSelected.getIndexX(),tiles[fristSelected.getIndexX()].length);
+                                beforremove(secondSelected.getIndexX(),0,
+                                        secondSelected.getIndexX(),tiles[secondSelected.getIndexX()].length);
+                                return 2;
+                        } else if(fristSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)
+                                &&secondSelected.getAnimalModifyer().equals(AnimalModifyer.leftRight)){
+                                beforremove(0, fristSelected.getIndexY(), tiles.length - 1, fristSelected.getIndexY());
+                                beforremove(secondSelected.getIndexX(),0,
+                                        secondSelected.getIndexX(),tiles[secondSelected.getIndexX()].length);
+                                return 3;
+                        } else if(fristSelected.getAnimalModifyer().equals(AnimalModifyer.leftRight)
+                                &&secondSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)){
+                                beforremove(fristSelected.getIndexX(),0,
+                                        fristSelected.getIndexX(),tiles[fristSelected.getIndexX()].length);
+                                beforremove(0, secondSelected.getIndexY(), tiles.length - 1, secondSelected.getIndexY());
+                                return 4;
+                        }
+
+
+                }
+                else {
+                        if (fU + fD + 1 == 3) {
+                                beforremove(fristSelected.getIndexX() - fU, fristSelected.getIndexY(),
+                                        fristSelected.getIndexX() + fD, fristSelected.getIndexY());
+                                return 5;
+                        }
+                        if (sU + sD + 1 == 3) {
+                                beforremove(secondSelected.getIndexX() - sU, secondSelected.getIndexY(),
+                                        secondSelected.getIndexX() + sD, secondSelected.getIndexY());
+                                return 6;
+                        }
+                        if (fL + fR + 1 == 3) {
+                                beforremove(fristSelected.getIndexX(), fristSelected.getIndexY() - fL,
+                                        fristSelected.getIndexX(), fristSelected.getIndexY() + fR);
+                                return 7;
+                        }
+                        if (sL + sR + 1 == 3) {
+                                beforremove(secondSelected.getIndexX(), secondSelected.getIndexY() - sL,
+                                        secondSelected.getIndexX(), secondSelected.getIndexY() + sR);
+                                return 8;
+                        }
+                        if (fU + fD + 1 == 4) {
+                                beforremove(fristSelected.getIndexX() - fU, fristSelected.getIndexY(),
+                                        fristSelected.getIndexX() - 1, fristSelected.getIndexY());
+                                beforremove(fristSelected.getIndexX() + 1, fristSelected.getIndexY(),
+                                        fristSelected.getIndexX() + fD, fristSelected.getIndexY());
+                                return 9;
+                        }
+                        if (sU + sD + 1 == 4) {
+                                beforremove(secondSelected.getIndexX() - sU, secondSelected.getIndexY(),
+                                        secondSelected.getIndexX() - 1, secondSelected.getIndexY());
+                                beforremove(secondSelected.getIndexX() + 1, secondSelected.getIndexY(),
+                                        secondSelected.getIndexX() + sD, secondSelected.getIndexY());
+                                return 10;
+                        }
+                        if (fL + fR + 1 == 4) {
+                                beforremove(fristSelected.getIndexX(), fristSelected.getIndexY() - fL,
+                                        fristSelected.getIndexX(), fristSelected.getIndexY() - 1);
+                                beforremove(fristSelected.getIndexX(), fristSelected.getIndexY() + 1,
+                                        fristSelected.getIndexX(), fristSelected.getIndexY() + fR);
+                                return 11;
+                        }
+                        if (sL + sR + 1 == 4) {
+                                beforremove(secondSelected.getIndexX(), secondSelected.getIndexY() - sL,
+                                        secondSelected.getIndexX(), secondSelected.getIndexY() - 1);
+                                beforremove(secondSelected.getIndexX(), secondSelected.getIndexY() + 1,
+                                        secondSelected.getIndexX(), secondSelected.getIndexY() + sR);
+                                return 12;
+                        }
+                        if (fU + fD + 1 == 5) {
+                                beforremove(fristSelected.getIndexX() - fU, fristSelected.getIndexY(),
+                                        fristSelected.getIndexX() - 1, fristSelected.getIndexY());
+                                beforremove(fristSelected.getIndexX() + 1, fristSelected.getIndexY(),
+                                        fristSelected.getIndexX() + fD, fristSelected.getIndexY());
+                                return 13;
+                        }
+                        if (sU + sD + 1 == 5) {
+                                beforremove(secondSelected.getIndexX() - sU, secondSelected.getIndexY(),
+                                        secondSelected.getIndexX() - 1, secondSelected.getIndexY());
+                                beforremove(secondSelected.getIndexX() + 1, secondSelected.getIndexY(),
+                                        secondSelected.getIndexX() + sD, secondSelected.getIndexY());
+                                return 14;
+                        }
+                        if (fL + fR + 1 == 5) {
+                                beforremove(fristSelected.getIndexX(), fristSelected.getIndexY() - fL,
+                                        fristSelected.getIndexX(), fristSelected.getIndexY() - 1);
+                                beforremove(fristSelected.getIndexX(), fristSelected.getIndexY() + 1,
+                                        fristSelected.getIndexX(), fristSelected.getIndexY() + fR);
+                                return 15;
+                        }
+                        if (sL + sR + 1 == 5) {
+                                beforremove(secondSelected.getIndexX(), secondSelected.getIndexY() - sL,
+                                        secondSelected.getIndexX(), secondSelected.getIndexY() - 1);
+                                beforremove(secondSelected.getIndexX(), secondSelected.getIndexY() + 1,
+                                        secondSelected.getIndexX(), secondSelected.getIndexY() + sR);
+                                return 16;
+                        }
+
+
+                }
+                return 0;
+
         }
 
         public void clear() {
@@ -180,135 +310,91 @@ public class Board {
                 int sR=howmanyinarowR(secondSelected.getIndexX(),secondSelected.getIndexY());
                 int sU=howmanyinarowU(secondSelected.getIndexX(),secondSelected.getIndexY());
                 int sD=howmanyinarowD(secondSelected.getIndexX(),secondSelected.getIndexY());
-                if(checkmoifier()){
-                        if(fristSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)
-                                &&secondSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)) {
-                                remove(0, fristSelected.getIndexY(), tiles.length - 1, fristSelected.getIndexY());
-                                remove(0, secondSelected.getIndexY(), tiles.length - 1, secondSelected.getIndexY());
+                if(beforeclear()==1){
+                        remove(0, fristSelected.getIndexY(), tiles.length - 1, fristSelected.getIndexY());
+                        remove(0, secondSelected.getIndexY(), tiles.length - 1, secondSelected.getIndexY());
+                } if(beforeclear()==2){remove(fristSelected.getIndexX(),0,
+                        fristSelected.getIndexX(),tiles[fristSelected.getIndexX()].length);
+                        remove(secondSelected.getIndexX(),0,
+                                secondSelected.getIndexX(),tiles[secondSelected.getIndexX()].length);
+                } if(beforeclear()==3){
+                        remove(0, fristSelected.getIndexY(), tiles.length - 1, fristSelected.getIndexY());
+                        remove(secondSelected.getIndexX(),0,
+                                secondSelected.getIndexX(),tiles[secondSelected.getIndexX()].length);
+                } if(beforeclear()==4){
+                        remove(fristSelected.getIndexX(),0,
+                                fristSelected.getIndexX(),tiles[fristSelected.getIndexX()].length);
+                        remove(0, secondSelected.getIndexY(), tiles.length - 1, secondSelected.getIndexY());
+                } if(beforeclear()==5){
+                        remove(fristSelected.getIndexX() - fU, fristSelected.getIndexY(),
+                                fristSelected.getIndexX() + fD, fristSelected.getIndexY());
+                } if(beforeclear()==6){
+                        remove(secondSelected.getIndexX() - sU, secondSelected.getIndexY(),
+                                secondSelected.getIndexX() + sD, secondSelected.getIndexY());
+                } if(beforeclear()==7){
+                        remove(fristSelected.getIndexX(), fristSelected.getIndexY() - fL,
+                                fristSelected.getIndexX(), fristSelected.getIndexY() + fR);
 
-                        } else if(fristSelected.getAnimalModifyer().equals(AnimalModifyer.leftRight)
-                                &&secondSelected.getAnimalModifyer().equals(AnimalModifyer.leftRight)){
-                                remove(fristSelected.getIndexX(),0,
-                                        fristSelected.getIndexX(),tiles[fristSelected.getIndexX()].length);
-                                remove(secondSelected.getIndexX(),0,
-                                        secondSelected.getIndexX(),tiles[secondSelected.getIndexX()].length);
-                        } else if(fristSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)
-                                &&secondSelected.getAnimalModifyer().equals(AnimalModifyer.leftRight)){
-                                remove(0, fristSelected.getIndexY(), tiles.length - 1, fristSelected.getIndexY());
-                                remove(secondSelected.getIndexX(),0,
-                                        secondSelected.getIndexX(),tiles[secondSelected.getIndexX()].length);
-                        } else if(fristSelected.getAnimalModifyer().equals(AnimalModifyer.leftRight)
-                                &&secondSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)){
-                                remove(fristSelected.getIndexX(),0,
-                                        fristSelected.getIndexX(),tiles[fristSelected.getIndexX()].length);
-                                remove(0, secondSelected.getIndexY(), tiles.length - 1, secondSelected.getIndexY());
-                        }
+                } if(beforeclear()==8){
+                        remove(secondSelected.getIndexX(), secondSelected.getIndexY() - sL,
+                                secondSelected.getIndexX(), secondSelected.getIndexY() + sR);
+                } if(beforeclear()==9){
+                        remove(fristSelected.getIndexX() - fU, fristSelected.getIndexY(),
+                                fristSelected.getIndexX() - 1, fristSelected.getIndexY());
+                        remove(fristSelected.getIndexX() + 1, fristSelected.getIndexY(),
+                                fristSelected.getIndexX() + fD, fristSelected.getIndexY());
+                        fristSelected.setAnimalModifyer(AnimalModifyer.leftRight);
 
-
-                }
-                else {
-                        if (fU + fD + 1 == 3) {
-                                s=fristSelected.getSpotAnimal().toString();
-                                remove(fristSelected.getIndexX() - fU, fristSelected.getIndexY(),
-                                        fristSelected.getIndexX() + fD, fristSelected.getIndexY());
-
-                        }
-                        if (sU + sD + 1 == 3) {
-                                s=secondSelected.getSpotAnimal().toString();
-                                remove(secondSelected.getIndexX() - sU, secondSelected.getIndexY(),
-                                        secondSelected.getIndexX() + sD, secondSelected.getIndexY());
-
-                        }
-                        if (fL + fR + 1 == 3) {
-                                s=fristSelected.getSpotAnimal().toString();
-                                remove(fristSelected.getIndexX(), fristSelected.getIndexY() - fL,
-                                        fristSelected.getIndexX(), fristSelected.getIndexY() + fR);
-
-                        }
-                        if (sL + sR + 1 == 3) {
-                                s=secondSelected.getSpotAnimal().toString();
-                                remove(secondSelected.getIndexX(), secondSelected.getIndexY() - sL,
-                                        secondSelected.getIndexX(), secondSelected.getIndexY() + sR);
-
-                        }
-                        if (fU + fD + 1 == 4) {
-                                s=fristSelected.getSpotAnimal().toString();
-                                remove(fristSelected.getIndexX() - fU, fristSelected.getIndexY(),
-                                        fristSelected.getIndexX() - 1, fristSelected.getIndexY());
-                                remove(fristSelected.getIndexX() + 1, fristSelected.getIndexY(),
-                                        fristSelected.getIndexX() + fD, fristSelected.getIndexY());
-                                fristSelected.setAnimalModifyer(AnimalModifyer.leftRight);
-
-                        }
-
-                        if (sU + sD + 1 == 4) {
-                                s=secondSelected.getSpotAnimal().toString();
-                                remove(secondSelected.getIndexX() - sU, secondSelected.getIndexY(),
-                                        secondSelected.getIndexX() - 1, secondSelected.getIndexY());
-                                remove(secondSelected.getIndexX() + 1, secondSelected.getIndexY(),
-                                        secondSelected.getIndexX() + sD, secondSelected.getIndexY());
-                                secondSelected.setAnimalModifyer(AnimalModifyer.leftRight);
-
-                        }
-                        if (fL + fR + 1 == 4) {
-                                s=fristSelected.getSpotAnimal().toString();
-                                remove(fristSelected.getIndexX(), fristSelected.getIndexY() - fL,
+                } if(beforeclear()==10){
+                        remove(secondSelected.getIndexX() - sU, secondSelected.getIndexY(),
+                                secondSelected.getIndexX() - 1, secondSelected.getIndexY());
+                        remove(secondSelected.getIndexX() + 1, secondSelected.getIndexY(),
+                                secondSelected.getIndexX() + sD, secondSelected.getIndexY());
+                        secondSelected.setAnimalModifyer(AnimalModifyer.leftRight);
+                } if (beforeclear()==11) {
+                        remove(fristSelected.getIndexX(), fristSelected.getIndexY() - fL,
                                         fristSelected.getIndexX(), fristSelected.getIndexY() - 1);
-                                remove(fristSelected.getIndexX(), fristSelected.getIndexY() + 1,
+                        remove(fristSelected.getIndexX(), fristSelected.getIndexY() + 1,
                                         fristSelected.getIndexX(), fristSelected.getIndexY() + fR);
-                                fristSelected.setAnimalModifyer(AnimalModifyer.leftRight);
+                        fristSelected.setAnimalModifyer(AnimalModifyer.leftRight);
 
-                        }
-                        if (sL + sR + 1 == 4) {
-                                s=secondSelected.getSpotAnimal().toString();
-                                remove(secondSelected.getIndexX(), secondSelected.getIndexY() - sL,
+                } if (beforeclear()==12) {
+                        remove(secondSelected.getIndexX(), secondSelected.getIndexY() - sL,
                                         secondSelected.getIndexX(), secondSelected.getIndexY() - 1);
-                                remove(secondSelected.getIndexX(), secondSelected.getIndexY() + 1,
+                        remove(secondSelected.getIndexX(), secondSelected.getIndexY() + 1,
                                         secondSelected.getIndexX(), secondSelected.getIndexY() + sR);
-                                secondSelected.setAnimalModifyer(AnimalModifyer.uPDown);
+                        secondSelected.setAnimalModifyer(AnimalModifyer.uPDown);
 
-                        }
-                        if (fU + fD + 1 == 5) {
-                                s=fristSelected.getSpotAnimal().toString();
-                                remove(fristSelected.getIndexX() - fU, fristSelected.getIndexY(),
+                } if (beforeclear()==13) {
+                        remove(fristSelected.getIndexX() - fU, fristSelected.getIndexY(),
                                         fristSelected.getIndexX() - 1, fristSelected.getIndexY());
-                                remove(fristSelected.getIndexX() + 1, fristSelected.getIndexY(),
+                        remove(fristSelected.getIndexX() + 1, fristSelected.getIndexY(),
                                         fristSelected.getIndexX() + fD, fristSelected.getIndexY());
-                                fristSelected.setAnimalModifyer(AnimalModifyer.square);
-
-                        }
-                        if (sU + sD + 1 == 5) {
-                                s=secondSelected.getSpotAnimal().toString();
-                                remove(secondSelected.getIndexX() - sU, secondSelected.getIndexY(),
+                        fristSelected.setAnimalModifyer(AnimalModifyer.square);
+                } if (beforeclear()==14) {
+                        remove(secondSelected.getIndexX() - sU, secondSelected.getIndexY(),
                                         secondSelected.getIndexX() - 1, secondSelected.getIndexY());
-                                remove(secondSelected.getIndexX() + 1, secondSelected.getIndexY(),
+                        remove(secondSelected.getIndexX() + 1, secondSelected.getIndexY(),
                                         secondSelected.getIndexX() + sD, secondSelected.getIndexY());
-                                secondSelected.setAnimalModifyer(AnimalModifyer.square);
+                        secondSelected.setAnimalModifyer(AnimalModifyer.square);
 
-                        }
-                        if (fL + fR + 1 == 5) {
-                                s=fristSelected.getSpotAnimal().toString();
-                                remove(fristSelected.getIndexX(), fristSelected.getIndexY() - fL,
+                } if (beforeclear()==15) {
+                        remove(fristSelected.getIndexX(), fristSelected.getIndexY() - fL,
                                         fristSelected.getIndexX(), fristSelected.getIndexY() - 1);
-                                remove(fristSelected.getIndexX(), fristSelected.getIndexY() + 1,
+                        remove(fristSelected.getIndexX(), fristSelected.getIndexY() + 1,
                                         fristSelected.getIndexX(), fristSelected.getIndexY() + fR);
-                                fristSelected.setAnimalModifyer(AnimalModifyer.square);
-
-                        }
-                        if (sL + sR + 1 == 5) {
-                                s=secondSelected.getSpotAnimal().toString();
-                                remove(secondSelected.getIndexX(), secondSelected.getIndexY() - sL,
+                        fristSelected.setAnimalModifyer(AnimalModifyer.square);
+                } if (beforeclear()==16) {
+                        remove(secondSelected.getIndexX(), secondSelected.getIndexY() - sL,
                                         secondSelected.getIndexX(), secondSelected.getIndexY() - 1);
-                                remove(secondSelected.getIndexX(), secondSelected.getIndexY() + 1,
+                        remove(secondSelected.getIndexX(), secondSelected.getIndexY() + 1,
                                         secondSelected.getIndexX(), secondSelected.getIndexY() + sR);
-                                secondSelected.setAnimalModifyer(AnimalModifyer.square);
-
-                        }
-
-
+                        secondSelected.setAnimalModifyer(AnimalModifyer.square);
                 }
 
         }
+
+
         public void remove(int x1,int y1,int x2,int y2){
                 for (int i = x1; i < x2+1; i++) {
                         for (int j = y1; j < y2+1; j++) {
@@ -320,16 +406,16 @@ public class Board {
                 }
 
         }
-        public int howmanyN (){
-                int n=0;
+        public List truetiles (){
+                ls=new LinkedList<>();
                 for (int i = 0; i < tiles.length; i++) {
                         for (int j = 0; j < tiles[i].length; j++) {
-                                if(tiles[i][j].getSpotAnimal().equals(BoardAnimals.NONE)){
-                                   n++;
+                                if(tiles[i][j].isMark()==true){
+                                        ls.add(tiles[i][j].getSpotAnimal().toString());
                                 }
                         }
                 }
-                return n;
+                return ls;
         }
         public void fall1 (){
                 for (int i = 0; i <tiles.length ; i++) {
@@ -416,7 +502,6 @@ public class Board {
         public void newturnstarts(){
                 secondSelected=null;
         }
-
 
 
 }

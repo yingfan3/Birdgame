@@ -6,6 +6,7 @@ public class Tile  {
     private BoardAnimals spotAnimal;
     private BoardBlockers boardBlocker;
     private AnimalModifyer animalModifyer;
+    private boolean mark;
     private int indexX;
     private int indexY;
 
@@ -49,13 +50,21 @@ public class Tile  {
     }
 
 
+    public boolean isMark() {
+        return mark;
+    }
 
-    public Tile(int indexX,int indexY){
+    public void setMark(boolean mark) {
+        this.mark = mark;
+    }
+
+    public Tile(int indexX, int indexY){
         this.indexX=indexX;
         this.indexY=indexY;
         this.spotAnimal= BoardAnimals.NONE;
         this.boardBlocker= BoardBlockers.NONE;
         this.animalModifyer= AnimalModifyer.NONE;
+        this.mark=false;
     }
 
     @Override

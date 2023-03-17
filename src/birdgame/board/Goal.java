@@ -16,15 +16,13 @@ public class Goal {
         return n;
     }
 
-    public void setN(int n) {
-        this.n = n;
-    }
-    public void havecleared(Board board){
-
-        if(board.getS().equals(stringb)){
-            n=n- board.howmanyN();
+    public void shouldbecleared(Board board){
+        int res=0;
+        for (int i = 0; i < board.truetiles().size(); i++) {
+            if(board.truetiles().get(i).equals(stringb)){
+                res++;
+            }
         }
-
-
+        n=n-res;
     }
 }
