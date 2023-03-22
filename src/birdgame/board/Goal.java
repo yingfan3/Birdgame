@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Goal {
     Random rm=new Random();
-    private int n= rm.nextInt(10);
+    private int n= rm.nextInt(1,10);
     private String stringb=BoardAnimals.getAnimal().toString();
 
     public String getagoal(){

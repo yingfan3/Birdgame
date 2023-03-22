@@ -6,8 +6,6 @@ public class Board {
         private Tile fristSelected;
         private Tile secondSelected;
         private final Tile [][] tiles;
-        private List<String> ls;
-
 
 
         @Override
@@ -188,7 +186,7 @@ public class Board {
                  int sR=howmanyinarowR(secondSelected.getIndexX(),secondSelected.getIndexY());
                  int sU=howmanyinarowU(secondSelected.getIndexX(),secondSelected.getIndexY());
                  int sD=howmanyinarowD(secondSelected.getIndexX(),secondSelected.getIndexY());
-                if(checkmoifier()){
+                 if(checkmoifier()){
                         if(fristSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)
                                 &&secondSelected.getAnimalModifyer().equals(AnimalModifyer.uPDown)) {
                                 beforremove(0, fristSelected.getIndexY(), tiles.length - 1, fristSelected.getIndexY());
@@ -215,9 +213,8 @@ public class Board {
                                 return 4;
                         }
 
-
-                }
-                else {
+                 }
+                 else {
                         if (fU + fD + 1 == 3) {
                                 beforremove(fristSelected.getIndexX() - fU, fristSelected.getIndexY(),
                                         fristSelected.getIndexX() + fD, fristSelected.getIndexY());
@@ -295,10 +292,8 @@ public class Board {
                                 return 16;
                         }
 
-
-                }
-                return 0;
-
+                 }
+                 return 0;
         }
 
         public void clear() {
@@ -371,25 +366,28 @@ public class Board {
                         remove(fristSelected.getIndexX() + 1, fristSelected.getIndexY(),
                                         fristSelected.getIndexX() + fD, fristSelected.getIndexY());
                         fristSelected.setAnimalModifyer(AnimalModifyer.square);
+                        fristSelected.setSpotAnimal(BoardAnimals.OWL);
                 } if (beforeclear()==14) {
                         remove(secondSelected.getIndexX() - sU, secondSelected.getIndexY(),
                                         secondSelected.getIndexX() - 1, secondSelected.getIndexY());
                         remove(secondSelected.getIndexX() + 1, secondSelected.getIndexY(),
                                         secondSelected.getIndexX() + sD, secondSelected.getIndexY());
                         secondSelected.setAnimalModifyer(AnimalModifyer.square);
-
+                        secondSelected.setSpotAnimal(BoardAnimals.OWL);
                 } if (beforeclear()==15) {
                         remove(fristSelected.getIndexX(), fristSelected.getIndexY() - fL,
                                         fristSelected.getIndexX(), fristSelected.getIndexY() - 1);
                         remove(fristSelected.getIndexX(), fristSelected.getIndexY() + 1,
                                         fristSelected.getIndexX(), fristSelected.getIndexY() + fR);
                         fristSelected.setAnimalModifyer(AnimalModifyer.square);
+                        fristSelected.setSpotAnimal(BoardAnimals.OWL);
                 } if (beforeclear()==16) {
                         remove(secondSelected.getIndexX(), secondSelected.getIndexY() - sL,
                                         secondSelected.getIndexX(), secondSelected.getIndexY() - 1);
                         remove(secondSelected.getIndexX(), secondSelected.getIndexY() + 1,
                                         secondSelected.getIndexX(), secondSelected.getIndexY() + sR);
                         secondSelected.setAnimalModifyer(AnimalModifyer.square);
+                        secondSelected.setSpotAnimal(BoardAnimals.OWL);
                 }
 
         }
@@ -407,7 +405,7 @@ public class Board {
 
         }
         public List truetiles (){
-                ls=new LinkedList<>();
+                List<String> ls=new LinkedList<>();
                 for (int i = 0; i < tiles.length; i++) {
                         for (int j = 0; j < tiles[i].length; j++) {
                                 if(tiles[i][j].isMark()==true){
@@ -501,6 +499,88 @@ public class Board {
 
         public void newturnstarts(){
                 secondSelected=null;
+        }
+        public void reset1(){
+                for (int i = 0; i < tiles.length; i++) {
+                        for (int j = 0; j < tiles[i].length; j++) {
+                                tiles[i][j].setMark(false);
+                        }
+                }
+        }
+        public void reset2(){
+                truetiles().clear();
+                for (int i = 0; i < tiles.length; i++) {
+                        for (int j = 0; j < tiles[i].length; j++) {
+                                tiles[i][j].setMark(false);
+                        }
+                }
+        }
+        public int column(Tile[][] array){
+                int result = 0;
+                for (int i = 0; i < tiles.length; i++) {
+                        result=tiles[i].length;
+                }
+                return result;
+        }
+
+        public boolean hasduplicate (){
+                int count=1;
+                for (int i = 0; i <tiles.length ; i++) {
+                        int j =0;
+                        String s=tiles[i][0].getSpotAnimal().toString();
+                        while (j < tiles[i].length-1)  {
+                                if(tiles[i][j+1].getSpotAnimal().toString().equals(s)){
+                                        tiles[i][j].setMark(true);
+                                        tiles[i][j+1].setMark(true);
+                                        count++;
+
+                                }else {
+                                       s=tiles[i][j+1].getSpotAnimal().toString();
+                                       count=1;
+                                }
+                                j++;
+                        }
+                        if(count<3){
+                              reset1();
+                        }
+                        else {return true;
+                        }
+                }
+                for (int j = 0; j <column(tiles) ; j++) {
+                        int i =0;
+                        String s=tiles[i][j].getSpotAnimal().toString();
+                        while (i < tiles.length-1)  {
+                                if(tiles[i+1][j].getSpotAnimal().toString().equals(s)){
+                                        tiles[i][j].setMark(true);
+                                        tiles[i+1][j].setMark(true);
+                                        count++;
+
+                                }else {
+                                        s=tiles[i+1][j].getSpotAnimal().toString();
+                                        count=1;
+                                }
+                                i++;
+                        }
+                        if(count<3){
+                                reset1();
+                        }
+                        else {
+                                return true;
+                        }
+                }
+
+
+                return false;
+        }
+
+        public void removeduplicate (){
+                for (int i = 0; i < tiles.length; i++) {
+                        for (int j = 0; j < tiles[i].length; j++) {
+                                if(tiles[i][j].isMark()){
+                                        tiles[i][j].setSpotAnimal(BoardAnimals.getAnimal());
+                                }
+                        }
+                }
         }
 
 
